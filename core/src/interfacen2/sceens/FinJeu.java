@@ -1,5 +1,6 @@
 package interfacen2.sceens;
 
+import interfacen2.manag.AdaptEcran;
 import interfacen2.manag.My2GdxGame;
 
 import com.badlogic.gdx.Gdx;
@@ -28,11 +29,6 @@ public class FinJeu implements Screen{
 
 	private SpriteBatch batch;
 
-
-
-	private float largeur_ecran;
-
-	private float hauteur_ecran;
 
 
 
@@ -81,8 +77,7 @@ public class FinJeu implements Screen{
 	private float xUnite(float x)
 
 	{
-
-		return x*largeur_ecran/480f;
+		return AdaptEcran.setEcranPostX(x);
 
 	}
 
@@ -95,8 +90,7 @@ public class FinJeu implements Screen{
 	private float yUnite(float y)
 
 	{
-
-		return y*hauteur_ecran/320;
+		return AdaptEcran.setEcranPosY(y);
 
 	}
 
@@ -108,12 +102,6 @@ public class FinJeu implements Screen{
 
 	public void show() {
 
-
-		// Obtenir la taille de l'écran actuelle
-
-		largeur_ecran = Gdx.graphics.getWidth();
-
-		hauteur_ecran = Gdx.graphics.getHeight();
 
 
 
@@ -203,7 +191,7 @@ public class FinJeu implements Screen{
 
 					// le bouton 1 (jeu local) a été cliqué
 					//game.setScreen(new CameraScreen(game));
-					
+					page=1;
 
 
 				}
@@ -217,7 +205,7 @@ public class FinJeu implements Screen{
 
 
 				}
-				
+
 				if(x>xUnite(150) && x < xUnite(320) && y>yUnite(220) && y<yUnite(280))
 
 				{
@@ -225,6 +213,16 @@ public class FinJeu implements Screen{
 					// le bouton 2 (jeu en ligne) a été cliqué
 					game.setScreen(new NouvJeu(game));
 
+
+				}
+
+				if(x>xUnite(0) && x<xUnite(64) && y>yUnite(0) && y<yUnite(64))
+
+				{
+
+					// le bouton retour a été cliqué
+
+					page=0;
 
 				}
 
@@ -268,7 +266,7 @@ public class FinJeu implements Screen{
 					cliqueBouton2=true;
 
 				}
-				
+
 				if(x>xUnite(150) && x < xUnite(320) && y>yUnite(220) && y<yUnite(280))
 
 				{
@@ -448,20 +446,13 @@ public class FinJeu implements Screen{
 
 
 
-		/*if(page == 1)  // si on est à la page Game
+		if(page == 1)  // si on est à la page Game
 
-			font.draw(batch, "The Game", xUnite(200), yUnite(320));  // dessiner le titre de la page 1
+			font.draw(batch, "Score", xUnite(200), yUnite(320));  // dessiner le titre de la page 1
 		//game.setScreen(new CameraScreen(game));
 
-		if(page == 2)  // si on est à la page 
 
-			font.draw(batch, "Reglages", xUnite(200), yUnite(320)); // dessiner le titre de la page 2
 
-		if(page == 3)  // si on est à la page 
-
-			font.draw(batch, "blabla", xUnite(200), yUnite(320)); // dessiner le titre de la page 3
-
-*/
 		boutonRetourSprite.draw(batch);
 
 		batch.end();
@@ -526,11 +517,31 @@ public class FinJeu implements Screen{
 
 		manipulerMenu();  // gestion des input
 
-
+		if(page==2)
+			dessinerPage(2);
 
 		// Contenu de la page menu
 
-		dessinerMenu();
+		//dessinerMenu();
+
+		switch(page)  // dans quelle page je me situe ?
+
+		{
+
+		case 0:              // Contenu de la page menu
+
+			dessinerMenu();
+
+
+
+			break;
+
+		case 1:             // Contenu de la page Game
+
+			dessinerPage(1);
+
+			break;
+		}
 
 
 

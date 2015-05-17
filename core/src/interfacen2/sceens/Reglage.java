@@ -1,5 +1,6 @@
 package interfacen2.sceens;
 
+import interfacen2.manag.AdaptEcran;
 import interfacen2.manag.My2GdxGame;
 
 import com.badlogic.gdx.Gdx;
@@ -27,13 +28,6 @@ public class Reglage implements Screen{
 	private BitmapFont font;
 
 	private SpriteBatch batch;
-
-
-
-	private float largeur_ecran;
-
-	private float hauteur_ecran;
-
 
 
 	private float xposBouton1;
@@ -77,29 +71,27 @@ public class Reglage implements Screen{
 
 	// Fonction qui maintien le rapport entre les positions Y
 
-	// vis-à-vis de la taille de l'écran
+			// vis-à-vis de la taille de l'écran
 
-	private float xUnite(float x)
+			private float xUnite(float x)
 
-	{
+			{
+				return AdaptEcran.setEcranPostX(x);
 
-		return x*largeur_ecran/480f;
-
-	}
-
+			}
 
 
-	// Fonction qui maintien le rapport entre les positions Y
 
-	// vis-à-vis de la taille de l'écran
+			// Fonction qui maintien le rapport entre les positions Y
 
-	private float yUnite(float y)
+			// vis-à-vis de la taille de l'écran
 
-	{
+			private float yUnite(float y)
 
-		return y*hauteur_ecran/320;
+			{
+				return AdaptEcran.setEcranPosY(y);
 
-	}
+			}
 
 
 
@@ -108,14 +100,6 @@ public class Reglage implements Screen{
 	@Override
 
 	public void show() {
-
-
-		// Obtenir la taille de l'écran actuelle
-
-		largeur_ecran = Gdx.graphics.getWidth();
-
-		hauteur_ecran = Gdx.graphics.getHeight();
-
 
 
 		batch = new SpriteBatch();
@@ -226,6 +210,16 @@ public class Reglage implements Screen{
 					// le bouton 3 (jeu en ligne) a été cliqué
 					// game.setScreen(new NouvJeu(game));
 
+
+				}
+				
+				if(x>xUnite(0) && x<xUnite(64) && y>yUnite(0) && y<yUnite(64))
+
+				{
+
+					// le bouton retour a été cliqué
+					game.setScreen(new Menu(game));
+					
 
 				}
 
@@ -424,6 +418,8 @@ public class Reglage implements Screen{
 			boutonCliqueSprite.draw(batch);
 
 		}
+		
+		boutonRetourSprite.draw(batch);
 
 
 

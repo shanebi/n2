@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import interfacen2.manag.AdaptEcran;
 
 public class Menu implements Screen {
 
@@ -32,11 +33,6 @@ public class Menu implements Screen {
 
 		private SpriteBatch batch;
 
-
-
-		private float largeur_ecran;
-
-		private float hauteur_ecran;
 
 
 
@@ -100,8 +96,7 @@ public class Menu implements Screen {
 		private float xUnite(float x)
 
 		{
-
-			return x*largeur_ecran/480f;
+			return AdaptEcran.setEcranPostX(x);
 
 		}
 
@@ -114,8 +109,7 @@ public class Menu implements Screen {
 		private float yUnite(float y)
 
 		{
-
-			return y*hauteur_ecran/320;
+			return AdaptEcran.setEcranPosY(y);
 
 		}
 
@@ -127,12 +121,6 @@ public class Menu implements Screen {
 
 		public void show() {
 
-
-			// Obtenir la taille de l'écran actuelle
-
-			largeur_ecran = Gdx.graphics.getWidth();
-
-			hauteur_ecran = Gdx.graphics.getHeight();
 
 
 
@@ -286,7 +274,7 @@ public class Menu implements Screen {
 
 						// le bouton logo a été cliqué
 
-						//page=5;
+						page=5;
 
 					}
 

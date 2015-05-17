@@ -1,5 +1,6 @@
 package interfacen2.sceens;
 
+import interfacen2.manag.AdaptEcran;
 import interfacen2.manag.My2GdxGame;
 
 import com.badlogic.gdx.Gdx;
@@ -21,40 +22,22 @@ public class NouvJeu implements Screen{
 
 	private Sprite arrierePlanSprite;
 
-	private Sprite boutonRetourSprite;
-
-	private BitmapFont font;
-
 	private SpriteBatch batch;
-
-
-
-	private float largeur_ecran;
-
-	private float hauteur_ecran;
-
 
 
 	private float xposBouton1;
 
 	private float xposBouton2;
 
-	private float xposBoutonRetour;
-
-
 
 	private float yposBouton1;
 
 	private float yposBouton2;
 
-	private float yposBoutonRetour;
-
 
 	private boolean cliqueBouton1;
 
 	private boolean cliqueBouton2;
-
-	private int page;
 
 
 
@@ -70,29 +53,27 @@ public class NouvJeu implements Screen{
 
 	// Fonction qui maintien le rapport entre les positions Y
 
-	// vis-à-vis de la taille de l'écran
+			// vis-à-vis de la taille de l'écran
 
-	private float xUnite(float x)
+			private float xUnite(float x)
 
-	{
+			{
+				return AdaptEcran.setEcranPostX(x);
 
-		return x*largeur_ecran/480f;
-
-	}
-
+			}
 
 
-	// Fonction qui maintien le rapport entre les positions Y
 
-	// vis-à-vis de la taille de l'écran
+			// Fonction qui maintien le rapport entre les positions Y
 
-	private float yUnite(float y)
+			// vis-à-vis de la taille de l'écran
 
-	{
+			private float yUnite(float y)
 
-		return y*hauteur_ecran/320;
+			{
+				return AdaptEcran.setEcranPosY(y);
 
-	}
+			}
 
 
 
@@ -101,13 +82,6 @@ public class NouvJeu implements Screen{
 	@Override
 
 	public void show() {
-
-
-		// Obtenir la taille de l'écran actuelle
-
-		largeur_ecran = Gdx.graphics.getWidth();
-
-		hauteur_ecran = Gdx.graphics.getHeight();
 
 
 
@@ -125,10 +99,8 @@ public class NouvJeu implements Screen{
 
 		arrierePlanSprite = new Sprite(new Texture(Gdx.files.internal("acceuil.png")));
 
-		boutonRetourSprite = new Sprite(new Texture(Gdx.files.internal("retour.png")));
 
-
-
+		//Taille du Sprite
 		boutonSpriteJeuLocal.setSize(xUnite(430), yUnite(90));
 		boutonSpriteJeuLigne.setSize(xUnite(440), yUnite(90));
 
@@ -136,35 +108,19 @@ public class NouvJeu implements Screen{
 
 		arrierePlanSprite.setSize(xUnite(480), yUnite(320));
 
-		boutonRetourSprite.setSize(xUnite(64), yUnite(64));
-
-		// La police pour le texte
-
-		font = new BitmapFont();
-
-		font.setColor(Color.DARK_GRAY);
-
-		font.setScale(xUnite(1), yUnite(1)); // définir la taille du texte selon l'écran
+		
 
 
-		xposBouton1 = xUnite(20); // Position du bouton 'nouveau jeu'
+		xposBouton1 = xUnite(20); // Position du bouton 'jeu local'
 
 		yposBouton1 = yUnite(180);
 
 
 
-		xposBouton2 = xUnite(20); // Position du bouton 'Options'
+		xposBouton2 = xUnite(20); // Position du bouton 'jeu en ligne'
 
 		yposBouton2 = yUnite(40);
 
-
-
-
-		xposBoutonRetour = xUnite(0);  // Position du bouton 'Retour'
-
-		yposBoutonRetour = yUnite(260);
-
-		boutonRetourSprite.setPosition(xposBoutonRetour, yposBoutonRetour);
 		
 		
 
@@ -371,9 +327,6 @@ public class NouvJeu implements Screen{
 			boutonCliqueSprite.draw(batch);
 
 		}
-
-
-
 		
 
 		batch.end();  // obligatoire pour finir le dessin sur un SpriteBatch
@@ -383,36 +336,9 @@ public class NouvJeu implements Screen{
 	}
 
 
-
-	public void dessinerPage(int page)
-
-	{
-
-		batch.begin();
-
-
-
-		if(page == 1)  // si on est à la page Game
-
-			//font.draw(batch, "The Game", xUnite(200), yUnite(320));  // dessiner le titre de la page 1
-			game.setScreen(new CameraScreen(game));
-
-		if(page == 2)  // si on est à la page 
-			
-			font.draw(batch, "Reglages", xUnite(200), yUnite(320)); // dessiner le titre de la page 2
-
-		
-		boutonRetourSprite.draw(batch);
-
-		batch.end();
-
-	}
-
 	@Override
 
 	public void dispose() {
-
-		font.dispose();
 
 		batch.dispose();
 
