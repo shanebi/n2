@@ -5,8 +5,6 @@ import interfacen2.manag.My2GdxGame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,9 +17,10 @@ public class Menu implements Screen {
 		My2GdxGame game;
 
 		private Sprite boutonSpriteJeu;
-		private Sprite boutonSpritePropos;
+		private Sprite boutonSpriteRegle;
 		private Sprite boutonSpriteQuitter;
 		private Sprite boutonSpriteReglages;
+		private Sprite boutonSpritelogo;
 
 		private Sprite boutonCliqueSprite;
 
@@ -50,6 +49,8 @@ public class Menu implements Screen {
 		private float xposBouton4;
 
 		private float xposBoutonRetour;
+		
+		private float xposBoutonLogo;
 
 
 
@@ -62,6 +63,8 @@ public class Menu implements Screen {
 		private float yposBouton4;
 
 		private float yposBoutonRetour;
+		
+		private float yposBoutonLogo;
 
 
 
@@ -72,31 +75,11 @@ public class Menu implements Screen {
 		private boolean cliqueBouton3;
 
 		private boolean cliqueBouton4;
-
-
-
-		private float xDecalage;
-
-		private float yDecalage;
-
-		//private Sound mp3Sound;
-
-		//private Music music;
-
+		
+		private boolean cliqueBouton5;
+		
 
 		private int page;
-
-
-
-		private String texteBouton1;
-
-		private String texteBouton2;
-
-		private String texteBouton3;
-
-		private String texteBouton4;
-
-
 
 
 
@@ -145,7 +128,6 @@ public class Menu implements Screen {
 		public void show() {
 
 
-
 			// Obtenir la taille de l'écran actuelle
 
 			largeur_ecran = Gdx.graphics.getWidth();
@@ -161,9 +143,10 @@ public class Menu implements Screen {
 			// Charger Texture dans Sprite
 
 			boutonSpriteJeu =new Sprite(new Texture(Gdx.files.internal("jeu.png"))) ;
-			boutonSpritePropos =new Sprite(new Texture(Gdx.files.internal("apropos.png"))) ;
+			boutonSpriteRegle =new Sprite(new Texture(Gdx.files.internal("regles.png"))) ;
 			boutonSpriteQuitter =new Sprite(new Texture(Gdx.files.internal("quitter.png"))) ;
 			boutonSpriteReglages =new Sprite(new Texture(Gdx.files.internal("reglages.png"))) ;
+			boutonSpritelogo =new Sprite(new Texture(Gdx.files.internal("titre.png"))) ;
 			
 			
 			boutonCliqueSprite = new Sprite(new Texture(Gdx.files.internal("quitter.png"))) ;
@@ -173,20 +156,18 @@ public class Menu implements Screen {
 			boutonRetourSprite = new Sprite(new Texture(Gdx.files.internal("retour.png")));
 
 
-
-			boutonSpriteJeu.setSize(xUnite(130), yUnite(50));
-			boutonSpritePropos.setSize(xUnite(130), yUnite(50));
-			boutonSpriteQuitter.setSize(xUnite(130), yUnite(50));
-			boutonSpriteReglages.setSize(xUnite(130), yUnite(50));
+			//Taille du Sprite
+			boutonSpriteJeu.setSize(xUnite(180), yUnite(60));
+			boutonSpriteRegle.setSize(xUnite(180), yUnite(60));
+			boutonSpriteQuitter.setSize(xUnite(180), yUnite(60));
+			boutonSpriteReglages.setSize(xUnite(180), yUnite(60));
+			boutonSpritelogo.setSize(xUnite(300), yUnite(120));
 
 			boutonCliqueSprite.setSize(xUnite(128), yUnite(64));
 
 			arrierePlanSprite.setSize(xUnite(480), yUnite(320));
 
 			boutonRetourSprite.setSize(xUnite(64), yUnite(64));
-
-			//mp3Sound = Gdx.audio.newSound(Gdx.files.internal("button-28.mp3"));
-			//Music music = Gdx.audio.newMusic(Gdx.files.internal("jungle-run-01.mp3"));
 
 			// La police pour le texte
 
@@ -197,26 +178,26 @@ public class Menu implements Screen {
 			font.setScale(xUnite(1), yUnite(1)); // définir la taille du texte selon l'écran
 
 
-			xposBouton1 = xUnite(50); // Position du bouton 'nouveau jeu'
+			xposBouton1 = xUnite(40); // Position du bouton 'nouveau jeu'
 
-			yposBouton1 = yUnite(132);
-
-
-
-			xposBouton2 = xUnite(50); // Position du bouton 'Options'
-
-			yposBouton2 = yUnite(47);
+			yposBouton1 = yUnite(122);
 
 
 
-			xposBouton3 = xUnite(300); // Position du bouton 'Bonus'
+			xposBouton2 = xUnite(40); // Position du bouton 'Reglage'
 
-			yposBouton3 = yUnite(132);
+			yposBouton2 = yUnite(37);
 
 
-			xposBouton4 = xUnite(300); // Position du bouton 'Quitter'
 
-			yposBouton4 = yUnite(47);
+			xposBouton3 = xUnite(270); // Position du bouton 'Regle'
+
+			yposBouton3 = yUnite(122);
+
+
+			xposBouton4 = xUnite(270); // Position du bouton 'Quitter'
+
+			yposBouton4 = yUnite(37);
 
 
 
@@ -227,11 +208,9 @@ public class Menu implements Screen {
 			boutonRetourSprite.setPosition(xposBoutonRetour, yposBoutonRetour);
 			
 			
-			// music.isPlaying();
-			 //music.setLooping(true);
-			 //music.play();
+			xposBoutonLogo = xUnite(120); // Position du bouton 'a propos'
+			yposBoutonLogo = yUnite(180);
 			
-
 
 
 		}
@@ -242,7 +221,7 @@ public class Menu implements Screen {
 
 		{
 
-			/*Gdx.input.setInputProcessor(new InputProcessor() {
+			Gdx.input.setInputProcessor(new InputProcessor() {
 
 
 
@@ -250,34 +229,32 @@ public class Menu implements Screen {
 
 				public boolean touchUp(int x, int y, int pointer, int bouton) {
 
-					if(x>xUnite(180) && x < xUnite(300) && y<yUnite(70) && y> yUnite(10))
+					if(x>xUnite(40) && x < xUnite(220) && y>yUnite(137) && y<yUnite(195))
 
 					{
 
-						// le bouton 1 (startGame) a été cliqué
-						// game.setScreen(new MapScreen(game));
-						//mp3Sound.play();
-						page=1;
+						// le bouton 1 (nouv jeu) a été cliqué
+						 game.setScreen(new NouvJeu(game));
 
 					}
 
-					if(x>xUnite(180) && x < xUnite(300) && y>yUnite(80) && y<yUnite(145))
+					if(x>xUnite(45) && x < xUnite(210) && y>yUnite(230) && y<yUnite(280))
 
 					{
 
-						// le bouton 2 (Options) a été cliqué
-
-						page=2;
+						// le bouton 2 (Reglages) a été cliqué
+						game.setScreen(new Reglage(game));
+						
 
 					}
 
 
 
-					if(x>xUnite(180) && x < xUnite(300) && y>yUnite(155) && y<yUnite(220))
+					if(x>xUnite(270) && x < xUnite(445) && y>yUnite(137) && y<yUnite(195))
 
 					{
 
-						// le bouton 3 (Bonus) a été cliqué    
+						// le bouton 3 (Regles) a été cliqué    
 
 						page=3;
 
@@ -293,13 +270,23 @@ public class Menu implements Screen {
 
 					}
 					
-					if(x>xUnite(0) && x<xUnite(64) && y>yUnite(230) && y<yUnite(293))
+					if(x>xUnite(270) && x < xUnite(445) && y>yUnite(230) && y<yUnite(280))
 
 					{
 
 						// le bouton quitter a été cliqué
 
 						page=4;
+
+					}
+					
+					if(x>xUnite(180) && x < xUnite(300) && y<yUnite(70) && y> yUnite(10))
+
+					{
+
+						// le bouton logo a été cliqué
+
+						//page=5;
 
 					}
 
@@ -312,7 +299,9 @@ public class Menu implements Screen {
 					cliqueBouton3 = false;
 
 					cliqueBouton4 = false;
-
+					
+					cliqueBouton5 = false;
+					
 
 
 					return false;
@@ -327,7 +316,7 @@ public class Menu implements Screen {
 
 
 
-					if(x>xUnite(180) && x < xUnite(300) && y>yUnite(10) && y<yUnite(70) )
+					if(x>xUnite(40) && x < xUnite(220) && y>yUnite(137) && y<yUnite(195))
 
 					{
 
@@ -335,7 +324,7 @@ public class Menu implements Screen {
 
 					}
 
-					if(x>xUnite(180) && x < xUnite(300) && y>yUnite(80) && y<yUnite(145))
+					if(x>xUnite(45) && x < xUnite(210) && y>yUnite(230) && y<yUnite(280))
 
 					{
 
@@ -343,7 +332,7 @@ public class Menu implements Screen {
 
 					}
 
-					if(x>xUnite(180) && x < xUnite(300) && y>yUnite(155) && y<yUnite(220))
+					if(x>xUnite(270) && x < xUnite(445) && y>yUnite(137) && y<yUnite(195))
 
 					{
 
@@ -351,11 +340,19 @@ public class Menu implements Screen {
 
 					}
 					
-					if(x>xUnite(180) && x < xUnite(300) && y>yUnite(230) && y<yUnite(293))
+					if(x>xUnite(270) && x < xUnite(445) && y>yUnite(230) && y<yUnite(280))
 
 					{
 
 						Gdx.app.exit();
+
+					}
+					
+					if(x>xUnite(120) && x < xUnite(400) && y<yUnite(120) && y> yUnite(30))
+
+					{
+
+						cliqueBouton5=true;
 
 					}
 
@@ -425,7 +422,7 @@ public class Menu implements Screen {
 
 			});
 
-		*/}
+		}
 
 		public void dessinerMenu()   // dessiner le menu
 
@@ -493,9 +490,9 @@ public class Menu implements Screen {
 
 			{
 
-				boutonSpritePropos.setPosition(xposBouton3, yposBouton3); // fixer la position
+				boutonSpriteRegle.setPosition(xposBouton3, yposBouton3); // fixer la position
 
-				boutonSpritePropos.draw(batch);                           // puis le dessiner
+				boutonSpriteRegle.draw(batch);                           // puis le dessiner
 
 			}else
 
@@ -527,6 +524,27 @@ public class Menu implements Screen {
 				boutonCliqueSprite.draw(batch);
 
 			}
+			
+			
+			// logo
+
+						if(!cliqueBouton5)
+
+						{
+
+							boutonSpritelogo.setPosition(xposBoutonLogo, yposBoutonLogo); // fixer la position
+
+							boutonSpritelogo.draw(batch);                           // puis le dessiner
+
+						}else
+
+						{
+
+							boutonCliqueSprite.setPosition(xposBoutonLogo, yposBoutonLogo);
+
+							boutonCliqueSprite.draw(batch);
+
+						}
 
 
 			batch.end();  // obligatoire pour finir le dessin sur un SpriteBatch
@@ -549,15 +567,17 @@ public class Menu implements Screen {
 
 				font.draw(batch, "The Game", xUnite(200), yUnite(320));  // dessiner le titre de la page 1
 
-			if(page == 2)  // si on est à la page Options
+			if(page == 2)  // si on est à la page 
 				
 				font.draw(batch, "Reglages", xUnite(200), yUnite(320)); // dessiner le titre de la page 2
 
-			if(page == 3)  // si on est à la page Bonus
+			if(page == 3)  // si on est à la page 
 
-				font.draw(batch, "A propos", xUnite(220), yUnite(320)); // dessiner le titre de la page 3
+				font.draw(batch, "Regles", xUnite(220), yUnite(320)); // dessiner le titre de la page 3
 
+			if(page == 5)  // si on est à la page regle
 
+				font.draw(batch, "A propos", xUnite(220), yUnite(320)); // dessiner le titre de la page 5
 
 
 			boutonRetourSprite.draw(batch);
@@ -646,7 +666,7 @@ public class Menu implements Screen {
 
 
 
-			case 2:             // Contenu de la page Options
+			case 2:             // Contenu de la page reglage
 
 				dessinerPage(2);
 
@@ -654,9 +674,16 @@ public class Menu implements Screen {
 
 
 
-			case 3:             // Contenu de la page Bonus
+			case 3:             // Contenu de la page regle
 
 				dessinerPage(3);
+
+				break;
+				
+			
+			case 5:             // Contenu de la page a propos
+
+				dessinerPage(5);
 
 				break;
 
