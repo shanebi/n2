@@ -55,8 +55,6 @@ public class Reglage implements Screen{
 	
 	private boolean cliqueBouton3;
 
-	private int page;
-
 
 
 	public Reglage(My2GdxGame g) {
@@ -433,29 +431,6 @@ public class Reglage implements Screen{
 
 
 
-	public void dessinerPage(int page)
-
-	{
-
-		batch.begin();
-
-
-
-		if(page == 1)  // si on est à la page Game
-
-			//font.draw(batch, "The Game", xUnite(200), yUnite(320));  // dessiner le titre de la page 1
-			//game.setScreen(new CameraScreen(game));
-
-		if(page == 2)  // si on est à la page 
-			
-			//font.draw(batch, "Reglages", xUnite(200), yUnite(320)); // dessiner le titre de la page 2
-
-		
-		boutonRetourSprite.draw(batch);
-
-		batch.end();
-
-	}
 
 	@Override
 
