@@ -1,5 +1,6 @@
 package interfacen2.sceens;
 
+import interfacen2.manag.AdaptEcran;
 import interfacen2.manag.My2GdxGame;
 
 import com.badlogic.gdx.Gdx;
@@ -21,23 +22,15 @@ public class CameraScreen implements Screen {
 	SpriteBatch batch;
 	My2GdxGame game;
 	private OrthographicCamera camera;
-	int width;
-	int height;
 
-	int x0, y0, x1, y1; // position du premier et deuxième doigt
+	int x0, y0; // position du doigt
 
 	int lastx0; // précédente position du 1er doigt
 	int lasty0; // précédente position du 1er doigt
 
-	int lastx1; // précédente position du 2eme doigt posé sur l'écran
-	int lasty1; // précédente position du 2eme doigt posé sur l'écran
-	public static float vitesse_zoom = 0.02f;
-	public static float vitesse_deplacement_camera = 200;
+	public static float vitesse_deplacement_camera = 20;
 
-	public static float max_zoom = 1f; // maximum qu'on peut zoomer
-	public static float min_zoom = 0.5f; // minimum qu'on peut zoomer
 
-	private int limite_image_maxHauteur; // limite déplacement camera
 	private int limite_image_maxLargeur; // limite déplacement camera
 	public static int limite_image_minHauteur = 0; // limite déplacement camera
 	public static int limite_image_minLargeur = 0; // limite déplacement camera
@@ -53,8 +46,6 @@ public class CameraScreen implements Screen {
 	 */
 	public CameraScreen(My2GdxGame game) {
 		this.game = game;
-		this.width = Gdx.graphics.getWidth();
-		this.height = Gdx.graphics.getHeight();
 	}
 
 	@Override
@@ -63,14 +54,13 @@ public class CameraScreen implements Screen {
 		largeur_Ecran = Gdx.graphics.getWidth();
 		hauteur_Ecran = Gdx.graphics.getHeight();
 
-		background = new Texture(Gdx.files.internal("map1.png"));
+		background = new Texture(Gdx.files.internal("map3.png"));
 		batch = new SpriteBatch();
 
-		camera = new OrthographicCamera(largeur_Ecran, hauteur_Ecran);
-		camera.position.set(largeur_Ecran * 2f, hauteur_Ecran * 2f, 0);
+		camera = new OrthographicCamera(AdaptEcran.setEcranLargeur(largeur_Ecran), AdaptEcran.setEcranLargeur(hauteur_Ecran));
+		camera.position.set(largeur_Ecran * 0.5f, hauteur_Ecran * 0.5f, 0);
 		camera.update();
 
-		limite_image_maxHauteur = background.getHeight() / 2;
 		limite_image_maxLargeur = background.getWidth() / 2;
 
 		limite_image_minHauteur = hauteur_Ecran / 2;
@@ -165,107 +155,37 @@ public class CameraScreen implements Screen {
 
 				// ************** Saisir les coordonnées actuelles
 				// ********************/
-				if (pointer == 1) // Pour le 2eme doigt
-				{
-					x1 = screenX;
-					y1 = screenY;
-				}
+
 				if (pointer == 0) // Pour le 1er doigt
 				{
 					x0 = screenX;
 					y0 = screenY;
 				}
 
-				/*********** Opération : Zoom sur carte *******************************/
 
-				if (Gdx.input.isTouched(1)) { // si deux doigt sont posés sur
-												// l'écran {
-					// Comparer entre la distance actuelle (entre les 2 doigts)
-					// et la distance précédente
-					if (Math.pow(x0 - x1, 2) + Math.pow(y0 - y1, 2) > Math.pow(
-							lastx0 - lastx1, 2) + Math.pow(lasty0 - lasty1, 2)) {
-						if (camera.zoom > min_zoom) // limite du zoom avant
-							camera.zoom -= vitesse_zoom;
-					} else {
-						if (camera.zoom < max_zoom) // limite du zoom arriére
-							camera.zoom += vitesse_zoom;
-					}
-				}
 
 				/********** Operation : Déplacer camera avec un doigt ******************/
-
-				if (!Gdx.input.isTouched(1)) // si un seul doigt est posé sur
-												// l'écran
+				if(!Gdx.input.isTouched(1))             // si un seul doigt est posé sur l'écran
 				{
-
-					// les quatre directions principales :
-					// -------------------------------------
-					if (y0 - lasty0 > 0 && x0 - lastx0 < 5 && x0 - lastx0 > -5) // si
-																				// drag
-																				// vers
-																				// haut
-																				// avec
-																				// tolérance
-																				// sur
-																				// x
+					if(x0-lastx0<0 && y0-lasty0>-5 && y0-lasty0<5)    // Si drag vers droite
 					{
-						if (camera.position.y < limite_image_maxHauteur) // limite
-																			// de
-																			// la
-																			// camera
-						{
-							camera.translate(0, vitesse_deplacement_camera);
-						}
-					} else {
-						if (y0 - lasty0 < 0 && x0 - lastx0 < 5
-								&& x0 - lastx0 > -5) // Si drag vers bas
-						{
-							if (camera.position.y > limite_image_minHauteur) // Limite
-																				// de
-																				// la
-																				// camera
-																				// en
-																				// bas
-							{
-								camera.translate(0, -vitesse_deplacement_camera);
-							}
-						}
-					}
-					if (x0 - lastx0 < 0 && y0 - lasty0 > -5 && y0 - lasty0 < 5) // Si
-																				// drag
-																				// vers
-																				// droite
-					{
-						if (camera.position.x < limite_image_maxLargeur) // Limite
-																			// de
-																			// la
-																			// camera
-																			// a
-																			// droite
+						if(camera.position.x<limite_image_maxLargeur) // Limite de la camera a droite
 						{
 							camera.translate(vitesse_deplacement_camera, 0);
 						}
-					} else {
-						if (x0 - lastx0 > 0 && y0 - lasty0 > -5
-								&& y0 - lasty0 < 5) // Si drag vers gauche
+					}
+					else
+					{
+						if(x0-lastx0>0 && y0-lasty0>-5 && y0-lasty0<5)     // Si drag vers gauche
 						{
-							if (camera.position.x > limite_image_minLargeur) // Limite
-																				// de
-																				// la
-																				// camera
-																				// à
-																				// gauche
+							if(camera.position.x>limite_image_minLargeur)  // Limite de la camera à gauche
 							{
 								camera.translate(-vitesse_deplacement_camera, 0);
 							}
 						}
 					}
 				}
-				if (pointer == 1) // 2eme doigt
-				{
-					lastx1 = x1;
-					lasty1 = y1;
-				}
+
 				if (pointer == 0)// 1er doigt
 				{
 					lastx0 = x0;
@@ -305,6 +225,6 @@ public class CameraScreen implements Screen {
 				return false;
 			}
 		});
-		
+
 	}
 }
