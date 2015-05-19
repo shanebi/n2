@@ -18,8 +18,20 @@ public class nouvCam implements Screen{
 	 TextureRegion MonOtarie;
 	 SpriteBatch batch;
 	 OrthographicCamera camera;
-	private int largeur_Ecran;
-	private int hauteur_Ecran;
+	 
+	 int x0, y0; // position du doigt
+
+		int lastx0; // précédente position du 1er doigt
+		int lasty0; // précédente position du 1er doigt
+
+		public static float vitesse_deplacement_camera = 20;
+
+
+		private int limite_image_maxLargeur; // limite déplacement camera
+		public static int limite_image_minHauteur = 0; // limite déplacement camera
+		public static int limite_image_minLargeur = 0; // limite déplacement camera
+	private float largeur_Ecran;
+	private float hauteur_Ecran;
 	 
 	 public nouvCam(My2GdxGame g) {
 
@@ -58,11 +70,13 @@ public class nouvCam implements Screen{
 
 	@Override
 	public void show() {
-		largeur_Ecran = Gdx.graphics.getWidth();
-		hauteur_Ecran = Gdx.graphics.getHeight();
+		largeur_Ecran = AdaptEcran.setEcranLargeur(800);
+		hauteur_Ecran = AdaptEcran.setEcranLargeur(320);
 		 // load assets
 		  otarie=new Texture(Gdx.files.internal("map3.png"));
+		  limite_image_maxLargeur = otarie.getWidth() / 2;
 		  MonOtarie=new TextureRegion(otarie,0,0,1024,512);
+		  limite_image_maxLargeur = otarie.getWidth() / 2;
 		  batch=new SpriteBatch();
 		  // create viewport
 		  camera=new OrthographicCamera();
@@ -76,7 +90,7 @@ public class nouvCam implements Screen{
 		  // render our images
 		  batch.setProjectionMatrix(camera.combined);
 		  batch.begin();
-		  batch.draw(MonOtarie,0,0,(AdaptEcran.setEcranLargeur(800)),(AdaptEcran.setEcranLargeur(320)));
+		  batch.draw(MonOtarie,0,0,largeur_Ecran,hauteur_Ecran);
 		  batch.end();
 		
 	}

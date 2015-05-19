@@ -28,15 +28,15 @@ public class CameraScreen implements Screen {
 	int lastx0; // précédente position du 1er doigt
 	int lasty0; // précédente position du 1er doigt
 
-	public static float vitesse_deplacement_camera = 20;
+	public static float vitesse_deplacement_camera = 10;
 
 
-	private int limite_image_maxLargeur; // limite déplacement camera
+	private float limite_image_maxLargeur; // limite déplacement camera
 	public static int limite_image_minHauteur = 0; // limite déplacement camera
 	public static int limite_image_minLargeur = 0; // limite déplacement camera
 
-	private int largeur_Ecran;
-	private int hauteur_Ecran;
+	private float largeur_Ecran;
+	private float hauteur_Ecran;
 
 	/**
 	 * Constructeur de la classe
@@ -51,20 +51,20 @@ public class CameraScreen implements Screen {
 	@Override
 	public void show() {
 
-		largeur_Ecran = Gdx.graphics.getWidth();
-		hauteur_Ecran = Gdx.graphics.getHeight();
+		largeur_Ecran =  AdaptEcran.setEcranLargeur(820);
+		hauteur_Ecran =  AdaptEcran.setEcranLargeur(400);
 
 		background = new Texture(Gdx.files.internal("map3.png"));
 		batch = new SpriteBatch();
 
-		camera = new OrthographicCamera(AdaptEcran.setEcranLargeur(largeur_Ecran), AdaptEcran.setEcranLargeur(hauteur_Ecran));
+		camera = new OrthographicCamera(largeur_Ecran, hauteur_Ecran);
 		camera.position.set(largeur_Ecran * 0.5f, hauteur_Ecran * 0.5f, 0);
 		camera.update();
 
-		limite_image_maxLargeur = background.getWidth() / 2;
+		limite_image_maxLargeur = (float) (background.getWidth() *1);
 
-		limite_image_minHauteur = hauteur_Ecran / 2;
-		limite_image_minLargeur = largeur_Ecran / 2;
+		limite_image_minHauteur = (int) (hauteur_Ecran / 2);
+		limite_image_minLargeur = (int) (largeur_Ecran / 2);
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class CameraScreen implements Screen {
 		GL20 gl = Gdx.graphics.getGL20();
 		gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		gl.glViewport(0, 0, largeur_Ecran, hauteur_Ecran);
+		gl.glViewport(0, 0, (int)largeur_Ecran, (int)hauteur_Ecran);
 		// camera.apply(gl);
 		camera.update();
 

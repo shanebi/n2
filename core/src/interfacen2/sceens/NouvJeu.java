@@ -143,7 +143,7 @@ public class NouvJeu implements Screen{
 				{
 
 					// le bouton 1 (jeu local) a été cliqué
-					 game.setScreen(new nouvCam(game));
+					 game.setScreen(new GraphImage(game));
 					//game.setScreen(new FinJeu(game));
 					
 
